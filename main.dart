@@ -95,18 +95,18 @@ Future<dynamic> main(final context) async {
   try {
     final deletedCount = await deleteAllDocuments();
 
-    return context.res.json({
+    return {
       'success': true,
       'deletedCount': deletedCount,
       'message': 'Deleted $deletedCount documents'
-    });
+    };
 
   } catch (e) {
     AppwriteLogger.error('Function failed', e);
 
-    return context.res.json({
+    return {
       'success': false,
       'error': e.toString()
-    }, statusCode: 500);
+    };
   }
 }
