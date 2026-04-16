@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:dart_appwrite/dart_appwrite.dart';
 
-// Hardcoded Appwrite credentials - replace with your actual values
-const String _endpoint = 'https://cloud.appwrite.io/v1';
-const String _projectId = 'YOUR_PROJECT_ID';
-const String _apiKey = 'YOUR_API_KEY';
-const String _databaseId = 'YOUR_DATABASE_ID';
-const String _collectionId = 'YOUR_COLLECTION_ID';
+// Hardcoded Appwrite credentials
+const String _endpoint = 'https://appwrite.appsqueeze.com/';
+const String _projectId = '69e0806e001ef211e9dc';
+const String _apiKey = 'standard_8079d546d3305480df19cc9dd54433a9c8664bdc6f31dff92c6150d7c6aee240f512dc8b7140973deb5d8783fdb53ed89c7261ba5d89f74a7634ab73583b8408f16d848fb41c88af93aedb5245bdc0bdeb80180ee154025aedb72b3a240a9595fffcc0c4018739aa45550a908900980ccf4b6f2f663d5ec39fc4d6b5c3db29fd';
+const String _databaseId = '69e082a500030e6c62c8';
+const String _collectionId = 'ai_content';
 
 /// Logger for debugging Appwrite operations
 class AppwriteLogger {
