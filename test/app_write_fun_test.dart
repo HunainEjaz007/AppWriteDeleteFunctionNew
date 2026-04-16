@@ -1,4 +1,4 @@
-import 'package:app_write_fun/app_write_fun.dart';
+import 'package:app_write_fun/main.dart';
 import 'package:test/test.dart';
 
 void main() {

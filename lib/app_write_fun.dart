@@ -1,4 +1,4 @@
-/// Appwrite utility functions for database operations.
+/// Appwrite Function to delete all documents.
 library;
 
-export 'src/app_write_fun_base.dart' show deleteAllDocuments, AppwriteLogger, AppwriteConfig;
+export 'main.dart' show main;
