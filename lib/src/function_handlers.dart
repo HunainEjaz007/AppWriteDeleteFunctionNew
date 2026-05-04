@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:dart_appwrite/dart_appwrite.dart';
-
 import 'appwrite_config.dart';
 import 'appwrite_logger.dart';
 import 'deletion_service.dart';
@@ -102,14 +100,7 @@ AppwriteLogger _buildLogger(dynamic context, String rawLevel) {
   );
 }
 
-Client _buildClient(AppwriteConfig config) {
-  return Client()
-      .setEndpoint(config.endpoint)
-      .setProject(config.projectId)
-      .setKey(config.apiKey);
-}
-
-Future<Map<String, dynamic>> runDeleteAllCollections(dynamic context) async {
+Future<dynamic> runDeleteAllCollections(dynamic context) async {
   AppwriteLogger? logger;
   try {
     final config = AppwriteConfig.fromEnvironment();
@@ -119,7 +110,7 @@ Future<Map<String, dynamic>> runDeleteAllCollections(dynamic context) async {
     logger.info('config.validated', data: <String, Object?>{'databaseId': config.databaseId});
 
     final service = DeletionService(
-      databases: Databases(_buildClient(config)),
+      config: config,
       logger: logger,
     );
 
@@ -136,17 +127,15 @@ Future<Map<String, dynamic>> runDeleteAllCollections(dynamic context) async {
     );
 
     final data = _successResponse(summary: summary, selectedMode: false);
-    _sendJson(context, data);
-    return data;
+    return _sendJson(context, data);
   } catch (error) {
     logger?.error('function.failed', data: <String, Object?>{'mode': 'all', 'error': error.toString()});
     final data = _errorResponse(error);
-    _sendJson(context, data);
-    return data;
+    return _sendJson(context, data);
   }
 }
 
-Future<Map<String, dynamic>> runDeleteSelectedCollections(dynamic context) async {
+Future<dynamic> runDeleteSelectedCollections(dynamic context) async {
   AppwriteLogger? logger;
   try {
     final config = AppwriteConfig.fromEnvironment();
@@ -167,7 +156,7 @@ Future<Map<String, dynamic>> runDeleteSelectedCollections(dynamic context) async
     }
 
     final service = DeletionService(
-      databases: Databases(_buildClient(config)),
+      config: config,
       logger: logger,
     );
 
@@ -191,15 +180,13 @@ Future<Map<String, dynamic>> runDeleteSelectedCollections(dynamic context) async
       selectedMode: true,
       collectionsRequested: collectionIds.length,
     );
-    _sendJson(context, data);
-    return data;
+    return _sendJson(context, data);
   } catch (error) {
     logger?.error(
       'function.failed',
       data: <String, Object?>{'mode': 'selected', 'error': error.toString()},
     );
     final data = _errorResponse(error);
-    _sendJson(context, data);
-    return data;
+    return _sendJson(context, data);
   }
 }
