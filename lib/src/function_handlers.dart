@@ -72,14 +72,15 @@ dynamic _readProperty(dynamic object, String key) {
 
 AppwriteLogger _buildLogger(dynamic context, String rawLevel) {
   void writer(String line) {
-    print(line);
+    final isError = line.contains('level=ERROR');
     try {
-      final dynamic logger = _readProperty(context, 'log');
-      if (logger is Function) {
-        logger(line);
+      if (isError) {
+        (context as dynamic).error(line);
+      } else {
+        (context as dynamic).log(line);
       }
     } catch (_) {
-      // Ignore context logging failures; stdout logs are still preserved.
+      print(line);
     }
   }
 
@@ -97,9 +98,10 @@ Client _buildClient(AppwriteConfig config) {
 }
 
 Future<Map<String, dynamic>> runDeleteAllCollections(dynamic context) async {
+  AppwriteLogger? logger;
   try {
     final config = AppwriteConfig.fromEnvironment();
-    final logger = _buildLogger(context, config.logLevel);
+    logger = _buildLogger(context, config.logLevel);
 
     logger.info('function.start', data: <String, Object?>{'mode': 'all'});
     logger.info('config.validated', data: <String, Object?>{'databaseId': config.databaseId});
@@ -123,14 +125,16 @@ Future<Map<String, dynamic>> runDeleteAllCollections(dynamic context) async {
 
     return _successResponse(summary: summary, selectedMode: false);
   } catch (error) {
+    logger?.error('function.failed', data: <String, Object?>{'mode': 'all', 'error': error.toString()});
     return _errorResponse(error);
   }
 }
 
 Future<Map<String, dynamic>> runDeleteSelectedCollections(dynamic context) async {
+  AppwriteLogger? logger;
   try {
     final config = AppwriteConfig.fromEnvironment();
-    final logger = _buildLogger(context, config.logLevel);
+    logger = _buildLogger(context, config.logLevel);
 
     logger.info('function.start', data: <String, Object?>{'mode': 'selected'});
     logger.info('config.validated', data: <String, Object?>{'databaseId': config.databaseId});
@@ -172,6 +176,10 @@ Future<Map<String, dynamic>> runDeleteSelectedCollections(dynamic context) async
       collectionsRequested: collectionIds.length,
     );
   } catch (error) {
+    logger?.error(
+      'function.failed',
+      data: <String, Object?>{'mode': 'selected', 'error': error.toString()},
+    );
     return _errorResponse(error);
   }
 }
