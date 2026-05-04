@@ -24,11 +24,15 @@ Map<String, dynamic> _errorResponse(Object error) {
   };
 }
 
-dynamic _sendJson(dynamic context, Map<String, dynamic> data, {int statusCode = 200}) {
+dynamic _sendJson(dynamic context, Map<String, dynamic> data) {
   try {
-    return (context as dynamic).res.json(data, statusCode);
+    return (context as dynamic).res.json(data);
   } catch (_) {
-    return jsonEncode(data);
+    try {
+      return (context as dynamic).res.send(jsonEncode(data));
+    } catch (_) {
+      return jsonEncode(data);
+    }
   }
 }
 
@@ -132,12 +136,12 @@ Future<Map<String, dynamic>> runDeleteAllCollections(dynamic context) async {
     );
 
     final data = _successResponse(summary: summary, selectedMode: false);
-    _sendJson(context, data, statusCode: 200);
+    _sendJson(context, data);
     return data;
   } catch (error) {
     logger?.error('function.failed', data: <String, Object?>{'mode': 'all', 'error': error.toString()});
     final data = _errorResponse(error);
-    _sendJson(context, data, statusCode: 500);
+    _sendJson(context, data);
     return data;
   }
 }
@@ -187,7 +191,7 @@ Future<Map<String, dynamic>> runDeleteSelectedCollections(dynamic context) async
       selectedMode: true,
       collectionsRequested: collectionIds.length,
     );
-    _sendJson(context, data, statusCode: 200);
+    _sendJson(context, data);
     return data;
   } catch (error) {
     logger?.error(
@@ -195,7 +199,7 @@ Future<Map<String, dynamic>> runDeleteSelectedCollections(dynamic context) async
       data: <String, Object?>{'mode': 'selected', 'error': error.toString()},
     );
     final data = _errorResponse(error);
-    _sendJson(context, data, statusCode: 500);
+    _sendJson(context, data);
     return data;
   }
 }

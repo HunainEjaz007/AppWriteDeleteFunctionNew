@@ -8,7 +8,7 @@ class AppConfig {
 
   // Function IDs from Appwrite console.
   static const String deleteAllFunctionId = '69f84e470013d784e7df';
-  static const String deleteSelectedFunctionId = 'delete_selected_collections_function_id';
+  static const String deleteSelectedFunctionId = '69f84e470013d784e7df';
 
   // Optional: set true only for local/self-signed certificate setups.
   static const bool selfSigned = false;
