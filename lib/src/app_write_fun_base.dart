@@ -1,2 +1,4 @@
-// Re-export from main.dart for backward compatibility
-export '../main.dart' show deleteAllDocuments, AppwriteLogger, main;
+export 'appwrite_config.dart';
+export 'appwrite_logger.dart';
+export 'deletion_service.dart';
+export 'function_handlers.dart';

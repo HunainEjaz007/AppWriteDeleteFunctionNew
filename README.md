@@ -1,39 +1,31 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Appwrite Delete Functions
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
+This project provides two Dart Appwrite Function entrypoints for deleting documents:
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
+- `main.dart` (`delete_all_collections`): deletes all documents from every collection in a database.
+- `main_selected.dart` (`delete_selected_collections`): deletes all documents from the provided `collectionIds` request payload.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Required environment variables
 
-## Features
+- `APPWRITE_ENDPOINT`
+- `APPWRITE_PROJECT_ID`
+- `APPWRITE_API_KEY`
+- `APPWRITE_DATABASE_ID`
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Optional:
 
-## Getting started
+- `LOG_LEVEL` (`DEBUG`, `INFO`, `WARN`, `ERROR`) - defaults to `INFO`
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+## Request payload (selected mode)
 
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
-```dart
-const like = 'sample';
+```json
+{
+  "collectionIds": ["collectionA", "collectionB"]
+}
 ```
 
-## Additional information
+## Behavior
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+- Logs are structured and emitted to stdout (project runtime) and Appwrite function logs.
+- Responses include totals and per-collection results.
+- Missing required env vars fail fast with a structured error response.

@@ -1,15 +1,16 @@
-import 'package:app_write_fun/main.dart';
+import 'package:app_write_fun/main.dart' as delete_all;
+import 'package:app_write_fun/main_selected.dart' as delete_selected;
 
-void main() async {
-  // Example: Delete all documents from the configured collection
-  // Make sure to update the hardcoded credentials in main.dart first!
+Future<void> main() async {
+  print('Running delete_all_collections function locally...');
+  final allResult = await delete_all.main(null);
+  print('all result: $allResult');
 
-  print('Starting document deletion example...');
-
-  try {
-    final deletedCount = await deleteAllDocuments();
-    print('Successfully deleted $deletedCount documents');
-  } catch (e) {
-    print('Error: $e');
-  }
+  print('Running delete_selected_collections function locally...');
+  final selectedResult = await delete_selected.main({
+    'payload': {
+      'collectionIds': <String>['example_collection_id']
+    }
+  });
+  print('selected result: $selectedResult');
 }
