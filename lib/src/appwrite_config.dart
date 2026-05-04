@@ -14,6 +14,7 @@ class AppwriteConfig {
     required this.projectId,
     required this.apiKey,
     required this.databaseId,
+    required this.targetTableId,
     required this.logLevel,
   });
 
@@ -21,6 +22,7 @@ class AppwriteConfig {
   final String projectId;
   final String apiKey;
   final String databaseId;
+  final String targetTableId;
   final String logLevel;
 
   static AppwriteConfig fromEnvironment([Map<String, String>? overrides]) {
@@ -32,8 +34,10 @@ class AppwriteConfig {
     final projectId = read('APPWRITE_PROJECT_ID');
     final apiKey = read('APPWRITE_API_KEY');
     final databaseId = read('APPWRITE_DATABASE_ID');
+    final targetTableIdRaw = read('APPWRITE_TABLE_ID');
     final logLevelRaw = read('LOG_LEVEL');
     final logLevel = logLevelRaw.isEmpty ? 'INFO' : logLevelRaw.toUpperCase();
+    final targetTableId = targetTableIdRaw.isEmpty ? 'test' : targetTableIdRaw;
 
     final missing = <String>[];
     if (endpoint.isEmpty) missing.add('APPWRITE_ENDPOINT');
@@ -50,6 +54,7 @@ class AppwriteConfig {
       projectId: projectId,
       apiKey: apiKey,
       databaseId: databaseId,
+      targetTableId: targetTableId,
       logLevel: logLevel,
     );
   }

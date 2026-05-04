@@ -90,6 +90,19 @@ class DeletionService {
   final http.Client _httpClient;
   final int batchSize;
 
+  Future<DeleteExecutionSummary> deleteFixedTable({
+    required String databaseId,
+    required String tableId,
+  }) async {
+    final resource = _ResourceRef(id: tableId, type: 'table');
+    final summary = await _deleteResource(databaseId: databaseId, resource: resource);
+    return DeleteExecutionSummary(
+      databaseId: databaseId,
+      perCollection: <CollectionDeleteSummary>[summary],
+      mode: 'table',
+    );
+  }
+
   Future<DeleteExecutionSummary> deleteAllCollections({required String databaseId}) async {
     logger.info('collection.scan.start', data: <String, Object?>{'databaseId': databaseId});
 

@@ -107,20 +107,30 @@ Future<dynamic> runDeleteAllCollections(dynamic context) async {
     logger = _buildLogger(context, config.logLevel);
 
     logger.info('function.start', data: <String, Object?>{'mode': 'all'});
-    logger.info('config.validated', data: <String, Object?>{'databaseId': config.databaseId});
+    logger.info(
+      'config.validated',
+      data: <String, Object?>{
+        'databaseId': config.databaseId,
+        'targetTableId': config.targetTableId,
+      },
+    );
 
     final service = DeletionService(
       config: config,
       logger: logger,
     );
 
-    final summary = await service.deleteAllCollections(databaseId: config.databaseId);
+    final summary = await service.deleteFixedTable(
+      databaseId: config.databaseId,
+      tableId: config.targetTableId,
+    );
 
     logger.info(
       'function.end',
       data: <String, Object?>{
         'mode': 'all',
         'databaseId': config.databaseId,
+        'targetTableId': config.targetTableId,
         'collectionsProcessed': summary.perCollection.length,
         'totalDeleted': summary.totalDeleted,
       },
